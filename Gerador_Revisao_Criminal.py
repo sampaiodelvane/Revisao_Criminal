@@ -70,7 +70,7 @@ if uploaded_file_1 is not None and uploaded_file_2 is not None:
             st.markdown("##### Removendo linhas com palavras-chave nas colunas JUSTIFICATIVA e MOTIVO...")
 
             # Lista de palavras para busca exata (com bordas de palavra \b)
-            palavras_exatas = ['MANDATO', 'INDENIZADO', 'INDENIZAR', 'GRATIFICAR', 'GRATIFICAÇÃO']
+            palavras_exatas = ['MANDATO', 'INDENIZADO', 'INDENIZAR', 'GRATIFICAR', 'GRATIFICAÇÃO','Compensação - Atividades em finais de semana, feriados ou recessos (indenizável) – Ato DPG 277/2024']
             # Frase para busca exata
             frase_exata = 'EXERCÍCIO FUNÇÃO DE CONFIANÇA'
 
