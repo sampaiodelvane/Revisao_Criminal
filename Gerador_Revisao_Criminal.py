@@ -54,7 +54,7 @@ if uploaded_file_1 is not None and uploaded_file_2 is not None:
             # --- Exclusão de Linhas com Palavras-chave na Coluna SITUACAO ---
             st.markdown("##### Removendo linhas com palavras-chave na coluna SITUACAO...")
             palavras_chave_situacao = [
-                'Excluído','Homologado', 'Homologado a Indenizar', 'Homologado à Indenizar', 'Indenizado'
+                'Excluído', 'Homologado a Indenizar', 'Indenizado','Anulado', 'Cancelado', 'Indeferido', 'Indenização Solicitada'
             ]
             df_afastamento_processed = df_afastamento_processed[
                 ~df_afastamento_processed['SITUACAO'].isin(palavras_chave_situacao)
