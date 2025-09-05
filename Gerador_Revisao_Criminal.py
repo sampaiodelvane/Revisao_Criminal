@@ -114,7 +114,7 @@ if uploaded_file_1 is not None and uploaded_file_2 is not None:
         st.markdown("##### Filtrando as colunas finais...")
         colunas_finais = [
             'ID_SERVIDOR', 'SERVIDOR', 'SITUACAO', 'MOTIVO',
-            'DT_INICIO', 'DT_FIM', 'QT_DIA', 'NM_ESTRUTURA'
+            'DT_INICIO', 'DT_FIM', 'QT_DIA', 'NM_ESTRUTURA', 'JUSTIFICATIVA'
         ]
         df_afastamento_final = df_afastamento_merged[colunas_finais]
         st.success("Filtragem de colunas concluída.")
