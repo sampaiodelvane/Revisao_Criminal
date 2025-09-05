@@ -54,7 +54,8 @@ if uploaded_file_1 is not None and uploaded_file_2 is not None:
             # --- Exclusão de Linhas com Palavras-chave na Coluna SITUACAO ---
             st.markdown("##### Removendo linhas com palavras-chave na coluna SITUACAO...")
             palavras_chave_situacao = [
-                'Excluído', 'Homologado a Indenizar', 'Indenizado','Anulado', 'Cancelado', 'Indeferido', 'Indenização Solicitada'
+                'Excluído', 'Homologado a Indenizar', 'Indenizado', 'Anulado', 'Cancelado', 'Indeferido',
+                'Indenização Solicitada'
             ]
             df_afastamento_processed = df_afastamento_processed[
                 ~df_afastamento_processed['SITUACAO'].isin(palavras_chave_situacao)
@@ -69,27 +70,27 @@ if uploaded_file_1 is not None and uploaded_file_2 is not None:
             # --- Exclusão de Linhas com Palavras-chave nas Colunas JUSTIFICATIVA e MOTIVO ---
             st.markdown("##### Removendo linhas com palavras-chave nas colunas JUSTIFICATIVA e MOTIVO...")
 
-            # Lista de palavras para busca exata (com bordas de palavra \b)
-            palavras_exatas = ['MANDATO', 'INDENIZADO', 'INDENIZAR', 'GRATIFICAR', 'GRATIFICAÇÃO','Compensação - Atividades em finais de semana, feriados ou recessos (indenizável) – Ato DPG 277/2024']
-            # Frase para busca exata
-            frase_exata = 'EXERCÍCIO FUNÇÃO DE CONFIANÇA'
-
-            # Cria um padrão de regex que busca por palavras inteiras ou a frase exata
-            regex_pattern = r'\b(' + '|'.join(palavras_exatas) + r')\b|' + re.escape(frase_exata)
-
-            # Preenche valores nulos para evitar erros e aplica o filtro
-            df_afastamento_processed = df_afastamento_processed[
-                ~df_afastamento_processed['JUSTIFICATIVA'].fillna('').str.contains(
-                    regex_pattern, case=False, na=False, regex=True
-                )
+            # Unifica as palavras e frases para o filtro
+            termos_excluir = [
+                'EXERCÍCIO FUNÇÃO DE CONFIANÇA',
+                'MANDATO', 'INDENIZADO', 'INDENIZAR', 'GRATIFICAR', 'indenização',
+                'INDEFERIMENTO', 'INDEFERIR', 'GRATIFICAÇÃO',
+                'Compensação - Atividades em finais de semana, feriados ou recessos (indenizável) – Ato DPG 277/2024',
+                'Indenizada', 'Compensação indeferida a bem do serviço público',
+                'Compensação para indenizaçao', 'Compensação indenizável',
+                'Indeferida', 'Indeferido', 'Indef', 'INDENIZAÇAO', 'Indenizacao',
+                'Indenização'
             ]
 
-            # Aplica o mesmo filtro para a coluna 'MOTIVO'
+            # Cria um padrão de regex a partir da lista
+            regex_pattern = '|'.join([re.escape(termo) for termo in termos_excluir])
+
+            # Aplica o filtro para as colunas 'JUSTIFICATIVA' e 'MOTIVO'
             df_afastamento_processed = df_afastamento_processed[
-                ~df_afastamento_processed['MOTIVO'].fillna('').str.contains(
-                    regex_pattern, case=False, na=False, regex=True
-                )
-            ]
+                ~(df_afastamento_processed['JUSTIFICATIVA'].fillna('').str.contains(regex_pattern, case=False,
+                                                                                    regex=True)) &
+                ~(df_afastamento_processed['MOTIVO'].fillna('').str.contains(regex_pattern, case=False, regex=True))
+                ]
 
             st.success("Exclusão de linhas em JUSTIFICATIVA e MOTIVO concluída.")
 
@@ -120,10 +121,11 @@ if uploaded_file_1 is not None and uploaded_file_2 is not None:
         st.success("Filtragem de colunas concluída.")
 
         # --- Formatação das Colunas de Data ---
-        st.markdown("##### Formatando as colunas de data...")
+        st.markdown("##### Formatação das colunas de data...")
         df_afastamento_final['DT_INICIO'] = df_afastamento_final['DT_INICIO'].dt.strftime('%d/%m/%Y')
-        df_afastamento_final['DT_FIM'] = pd.to_datetime(df_afastamento_final['DT_FIM'], format='%d/%m/%Y').dt.strftime(
-            '%d/%m/%Y')
+        df_afastamento_final['DT_FIM'] = pd.to_datetime(df_afastamento_final['DT_FIM'].astype(str), format='%d/%m/%Y',
+                                                        errors='coerce').dt.strftime('%d/%m/%Y')
+
         st.success("Formatação de data concluída.")
 
         st.markdown("---")
