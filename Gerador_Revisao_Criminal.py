@@ -79,7 +79,7 @@ if uploaded_file_1 is not None and uploaded_file_2 is not None:
                 'Indenizada', 'Compensação indeferida a bem do serviço público',
                 'Compensação para indenizaçao', 'Compensação indenizável',
                 'Indeferida', 'Indeferido', 'Indef', 'INDENIZAÇAO', 'Indenizacao',
-                'Indenização','Para fins de pagamento','para pagamento','pagamento'
+                'Indenização','Para fins de pagamento','para pagamento','pagamento','licença maternidade'
             ]
 
             # Cria um padrão de regex a partir da lista
